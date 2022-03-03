@@ -1,0 +1,10 @@
+[Unit]
+Description=A thin-edge.io plugin to integrate TinkerForge Linear Poti
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/thin-edge-tf-linear-poti
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,19 @@
+logging:
+  logLevel: INFO
+  maxMegaBytes: 10 
+  backupCount: 1 
+thin-edge:
+  host: "127.0.0.1"
+  port: 1883
+  config: '/etc/tedge/tedge.toml'
+  # this is the workaround until thin-edge can manage capabilities
+  additionalSupportedOps: ['c8y_SoftwareUpdate']
+config-management:
+  files: [
+    '/etc/tedge/tedge.toml',
+    '/etc/tedge/mosquitto-conf/c8y-bridge.conf',
+    '/etc/tedge/mosquitto-conf/tedge-mosquitto.conf',
+    '/etc/mosquitto/mosquitto.conf'
+  ]
+log-management:
+  files: []

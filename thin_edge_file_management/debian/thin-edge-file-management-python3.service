@@ -1,0 +1,10 @@
+[Unit]
+Description=A thin-edge.io plugin to manage configuration and log files
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/thin-edge-file-management
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

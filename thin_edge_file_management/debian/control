@@ -1,0 +1,12 @@
+Source: thin-edge-file-management
+Maintainer: unknown <unknown@unknown>
+Section: python
+Priority: optional
+Build-Depends: dh-python, python3-setuptools, python3-all, debhelper (>= 9), dh-systemd (>=1.5)
+Standards-Version: 3.9.6
+
+Package: thin-edge-file-management-python3
+Architecture: all
+Depends: ${misc:Depends}, ${python3:Depends}, python3-yaml
+Description: A thin-edge.io plugin to manage configuration and log files
+

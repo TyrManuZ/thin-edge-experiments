@@ -1,0 +1,12 @@
+Source: thin-edge-example-python-module
+Maintainer: unknown <unknown@unknown>
+Section: python
+Priority: optional
+Build-Depends: dh-python, python3-setuptools, python3-all, debhelper (>= 9), dh-systemd (>=1.5)
+Standards-Version: 3.9.6
+
+Package: python3-thin-edge-example-python-module
+Architecture: all
+Depends: ${misc:Depends}, ${python3:Depends}
+Description: A simple example to create a thin-edge module written in pyt
+

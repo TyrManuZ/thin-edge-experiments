@@ -1,0 +1,10 @@
+[Unit]
+Description=This service is an example for a python module for thin-edge
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/thin-edge-module-example
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

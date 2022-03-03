@@ -1,0 +1,8 @@
+thin-edge:
+  host: "127.0.0.1"
+  port: 1883
+tinkerforge:
+  host: "127.0.0.1"
+  port: 4223
+# A list of the UIDs to be connected
+bricklets: []

@@ -1,0 +1,27 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.183.0/containers/debian
+{
+	"name": "thin-edge-development",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": { 
+			"VARIANT": "focal",
+			"DEVICE_ID": "thin-edge-development",
+			"C8Y_URL": "examples.cumulocity.com",
+			"THIN_EDGE_VERSION": "0.5.2",
+			"THIN_EDGE_ARCH": "amd64"
+		}
+	},
+	"containerEnv": { 
+		"C8Y_USER": "sommer",
+		"C8Y_TENANT": "examples"
+	},
+	"settings": {},
+	"extensions": [
+		"ms-python.python",
+		"GitHub.copilot"
+	],
+	"remoteUser": "vscode",
+	"postCreateCommand": "sudo tedge cert upload c8y --user ${C8Y_TENANT}/${C8Y_USER}",
+	"overrideCommand": false
+}

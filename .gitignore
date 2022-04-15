@@ -137,3 +137,9 @@ dmypy.json
 
 # Mac
 .DS_Store
+
+# certificate setup
+.compose/database*
+.compose/serial*
+.compose/tedge*
+.compose/device_*

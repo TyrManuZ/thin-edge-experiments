@@ -9,15 +9,6 @@ RUN apt install -y mosquitto
 RUN apt install -y mosquitto-clients
 RUN apt install -y supervisor
 RUN apt install -y python3-pip
-
-ARG INSTALL_BUILD_PACKAGES
-RUN if [[ "$INSTALL_BUILD_PACKAGES" = "true" ]] ; then apt install -y python-all ; else echo Skip installing python-all ; fi
-RUN if [[ "$INSTALL_BUILD_PACKAGES" = "true" ]] ; then apt install -y python3-all ; else echo Skip installing python3-all ; fi
-RUN if [[ "$INSTALL_BUILD_PACKAGES" = "true" ]] ; then apt install -y python3-stdeb ; else echo Skip installing python3-stdeb ; fi
-RUN if [[ "$INSTALL_BUILD_PACKAGES" = "true" ]] ; then apt install -y devscripts ; else echo Skip installing devscripts ; fi
-RUN if [[ "$INSTALL_BUILD_PACKAGES" = "true" ]] ; then apt install -y dh-python ; else echo Skip installing dh-python ; fi
-RUN if [[ "$INSTALL_BUILD_PACKAGES" = "true" ]] ; then apt install -y dh-systemd ; else echo Skip installing dh-systemd ; fi
-
 RUN apt install -y python3-paho-mqtt
 RUN apt install -y collectd-core
 
@@ -43,24 +34,34 @@ RUN dpkg -i tedge_agent.deb
 RUN dpkg -i tedge_logfile_plugin.deb
 
 RUN adduser vscode tedge-users
+
+# The certificates
 ARG DEVICE_ID
-RUN tedge cert create --device-id ${DEVICE_ID}
+COPY .compose/device_${DEVICE_ID}/deviceKeyNoPW.pem /etc/tedge/device-certs/tedge-private-key.pem
+ARG DEVICE_ID
+COPY .compose/device_${DEVICE_ID}/deviceCertChain.pem /etc/tedge/device-certs/tedge-certificate.pem
+
+RUN chmod +r /etc/tedge/device-certs/tedge-private-key.pem
+RUN chmod +r /etc/tedge/device-certs/tedge-certificate.pem
+RUN chown mosquitto:mosquitto /etc/tedge/device-certs/tedge-private-key.pem
+RUN chown mosquitto:mosquitto /etc/tedge/device-certs/tedge-certificate.pem
+RUN chown mosquitto:mosquitto /etc/tedge/device-certs
 
 ARG C8Y_URL
 RUN tedge config set c8y.url ${C8Y_URL}
 # we need to configure mosquitto manually because of docker
-COPY c8y-bridge.conf /etc/tedge/mosquitto-conf/c8y-bridge.conf
-COPY tedge-mosquitto.conf /etc/tedge/mosquitto-conf/tedge-mosquitto.conf
+COPY .devcontainer/c8y-bridge.conf /etc/tedge/mosquitto-conf/c8y-bridge.conf
+COPY .devcontainer/tedge-mosquitto.conf /etc/tedge/mosquitto-conf/tedge-mosquitto.conf
 ARG DEVICE_ID
 RUN sed -i "s/<<DEVICE_ID>>/${DEVICE_ID}/g" /etc/tedge/mosquitto-conf/c8y-bridge.conf
 ARG C8Y_URL
 RUN sed -i "s/<<C8Y_URL>>/${C8Y_URL}/g" /etc/tedge/mosquitto-conf/c8y-bridge.conf
 
 # setup collectd
-COPY collectd.conf /etc/collectd/collectd.conf
+COPY .devcontainer/collectd.conf /etc/collectd/collectd.conf
 
 # setup supervisor
-COPY thin-edge-supervisor.conf /etc/supervisor/conf.d/supervisord.conf
+COPY .devcontainer/thin-edge-supervisor.conf /etc/supervisor/conf.d/supervisord.conf
 
 CMD ["/usr/bin/supervisord"]
 #CMD ["/usr/sbin/mosquitto", "-c", "/etc/mosquitto/mosquitto.conf"]

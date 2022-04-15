@@ -1,0 +1,50 @@
+version: "3.9"
+services:
+    thin-edge-1:
+        build:
+            context: ..
+            dockerfile: .compose/Dockerfile
+            args:
+                VARIANT: "focal"
+                THIN_EDGE_ARCH: "amd64"
+                THIN_EDGE_VERSION: 0.5.2
+                DEVICE_ID: "thin-edge-dev-1011"
+                C8Y_URL: "examples.cumulocity.com"
+        healthcheck:
+            test: ["CMD", "tedge", "mqtt", "pub", "ping", "ping"]
+            interval: 30s
+            timeout: 10s
+            start_period: 10s
+            retries: 5
+    thin-edge-2:
+        build:
+            context: ..
+            dockerfile: .compose/Dockerfile
+            args:
+                VARIANT: "focal"
+                THIN_EDGE_ARCH: "amd64"
+                THIN_EDGE_VERSION: 0.6.2
+                DEVICE_ID: "thin-edge-dev-1012"
+                C8Y_URL: "examples.cumulocity.com"
+        healthcheck:
+            test: ["CMD", "tedge", "mqtt", "pub", "ping", "ping"]
+            interval: 30s
+            timeout: 10s
+            start_period: 10s
+            retries: 5
+    thin-edge-3:
+        build:
+            context: ..
+            dockerfile: .compose/Dockerfile
+            args:
+                VARIANT: "focal"
+                THIN_EDGE_ARCH: "amd64"
+                THIN_EDGE_VERSION: 0.5.2
+                DEVICE_ID: "thin-edge-dev-1013"
+                C8Y_URL: "examples.cumulocity.com"
+        healthcheck:
+            test: ["CMD", "tedge", "mqtt", "pub", "ping", "ping"]
+            interval: 30s
+            timeout: 10s
+            start_period: 10s
+            retries: 5

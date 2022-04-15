@@ -8,8 +8,10 @@
 			"VARIANT": "focal",
 			"DEVICE_ID": "thin-edge-development",
 			"C8Y_URL": "examples.cumulocity.com",
-			"THIN_EDGE_VERSION": "0.5.2",
-			"THIN_EDGE_ARCH": "amd64"
+			"THIN_EDGE_VERSION": "0.6.2",
+			"THIN_EDGE_ARCH": "amd64",
+			"USE_DEVELOPMENT_CERTIFICATE": "true",
+			"INSTALL_BUILD_PACKAGES": "false",
 		}
 	},
 	"containerEnv": { 

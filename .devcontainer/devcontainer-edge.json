@@ -5,16 +5,19 @@
 		"args": { 
 			"VARIANT": "focal",
 			"DEVICE_ID": "thin-edge-development",
-			"C8Y_URL": "iotsolutions.eu-latest.cumulocity.com",
+			"C8Y_URL": "local.1011.edge.c8y.io",
 			"THIN_EDGE_VERSION": "0.6.2",
 			"THIN_EDGE_ARCH": "amd64",
 			"USE_DEVELOPMENT_CERTIFICATE": "true",
 			"INSTALL_BUILD_PACKAGES": "false"
 		}
 	},
+	"runArgs": [
+		"--add-host=local.1011.edge.c8y.io:192.168.151.101"
+	],
 	"containerEnv": { 
-		"C8Y_USER": "tobias.sommer@softwareag.com",
-		"C8Y_TENANT": "iotsolutions"
+		"C8Y_USER": "edge1011",
+		"C8Y_TENANT": "edge"
 	},
 	"settings": {},
 	"extensions": [

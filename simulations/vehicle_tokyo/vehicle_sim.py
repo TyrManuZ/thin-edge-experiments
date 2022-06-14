@@ -1,13 +1,28 @@
-from random import random
+import random
 import paho.mqtt.client as paho
 import csv
+import os
 import json
 import time
 
 def send_message():
     client = paho.Client()
 
-    client.connect("127.0.0.1", 1883, 60)
+    #time.sleep(30)
+
+    try:
+        broker_address = os.environ['THIN_EDGE_BROKER_ADDRESS']
+    except KeyError:
+        broker_address = "localhost"
+
+    try:
+        broker_port = int(os.environ['THIN_EDGE_BROKER_PORT'])
+    except KeyError:
+        broker_port = 1883
+
+    print("Connecting to broker: " + broker_address + ":" + str(broker_port))
+
+    client.connect(broker_address, broker_port, 60)
     client.loop_start()
 
     cached_positions = []

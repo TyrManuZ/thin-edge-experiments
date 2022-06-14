@@ -7,9 +7,11 @@ services:
             args:
                 VARIANT: "focal"
                 THIN_EDGE_ARCH: "amd64"
-                THIN_EDGE_VERSION: 0.5.2
+                THIN_EDGE_VERSION: 0.6.2
                 DEVICE_ID: "thin-edge-dev-1011"
                 C8Y_URL: "examples.cumulocity.com"
+        ports:
+            - "1884:1883"
         healthcheck:
             test: ["CMD", "tedge", "mqtt", "pub", "ping", "ping"]
             interval: 30s
@@ -26,6 +28,8 @@ services:
                 THIN_EDGE_VERSION: 0.6.2
                 DEVICE_ID: "thin-edge-dev-1012"
                 C8Y_URL: "examples.cumulocity.com"
+        ports:
+            - "18832:1883"
         healthcheck:
             test: ["CMD", "tedge", "mqtt", "pub", "ping", "ping"]
             interval: 30s
@@ -39,12 +43,23 @@ services:
             args:
                 VARIANT: "focal"
                 THIN_EDGE_ARCH: "amd64"
-                THIN_EDGE_VERSION: 0.5.2
+                THIN_EDGE_VERSION: 0.6.2
                 DEVICE_ID: "thin-edge-dev-1013"
                 C8Y_URL: "examples.cumulocity.com"
+        ports:
+            - "18833:1883"
         healthcheck:
             test: ["CMD", "tedge", "mqtt", "pub", "ping", "ping"]
             interval: 30s
             timeout: 10s
             start_period: 10s
             retries: 5
+    car-simulation-1:
+        build: 
+            context: ../simulations/vehicle_tokyo
+        depends_on:
+            thin-edge-1:
+                condition: service_healthy
+        environment:
+            - THIN_EDGE_BROKER_ADDRESS=thin-edge-1
+            - THIN_EDGE_BROKER_PORT=1884

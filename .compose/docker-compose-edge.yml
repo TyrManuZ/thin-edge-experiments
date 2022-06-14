@@ -1,0 +1,29 @@
+version: "3.9"
+services:
+    thin-edge-1:
+        build:
+            context: ..
+            dockerfile: .compose/Dockerfile
+            args:
+                VARIANT: "focal"
+                THIN_EDGE_ARCH: "amd64"
+                THIN_EDGE_VERSION: 0.6.2
+                DEVICE_ID: "thin-edge-dev-1011"
+                C8Y_URL: "192.168.151.101"
+        ports:
+            - "1884:1883"
+        healthcheck:
+            test: ["CMD", "tedge", "mqtt", "pub", "ping", "ping"]
+            interval: 30s
+            timeout: 10s
+            start_period: 10s
+            retries: 5
+    oee-simulation-1:
+        build: 
+            context: ../simulations/oee
+        depends_on:
+            thin-edge-1:
+                condition: service_healthy
+        environment:
+            - THIN_EDGE_BROKER_ADDRESS=thin-edge-1
+            - THIN_EDGE_BROKER_PORT=1884

@@ -1,0 +1,10 @@
+c8y:
+  url: https://devices.jp.cumulocity.com
+  child: tedge-child
+  config-plugin-path: ./c8y-configuration-plugin.toml
+thin-edge:
+  broker: localhost
+  port: 1883
+imx500:
+  pics-path: pics
+  output-path: output

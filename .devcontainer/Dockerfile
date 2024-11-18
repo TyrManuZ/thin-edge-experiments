@@ -28,12 +28,15 @@ RUN pip install toml
 # install and configure thin-edge
 ARG THIN_EDGE_VERSION THIN_EDGE_ARCH
 #RUN curl -fsSL https://raw.githubusercontent.com/thin-edge/thin-edge.io/main/get-thin-edge_io.sh | sudo sh -s ${THIN_EDGE_VERSION}
-RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/tedge_mapper_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output tedge_mapper.deb
+RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/tedge-mapper_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output tedge_mapper.deb
 RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/tedge_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output tedge.deb
-RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/tedge_agent_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output tedge_agent.deb
-RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/tedge_apt_plugin_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output tedge_apt_plugin.deb
-# The following plugin is only available for version 0.5.3 and higher
-RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/tedge_logfile_request_plugin_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output tedge_logfile_plugin.deb
+RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/tedge-agent_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output tedge_agent.deb
+RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/tedge-apt-plugin_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output tedge_apt_plugin.deb
+RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/c8y-log-plugin_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output tedge_logfile_plugin.deb
+#RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/tedge-apama-plugin_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output tedge_apama_plugin.deb
+RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/c8y-configuration-plugin_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output tedge_configuration_plugin.deb
+RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/tedge-watchdog_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output tedge_watchdog_plugin.deb
+RUN curl -fsSL https://github.com/thin-edge/thin-edge.io/releases/download/${THIN_EDGE_VERSION}/c8y-remote-access-plugin_${THIN_EDGE_VERSION}_${THIN_EDGE_ARCH}.deb --output c8y_remote_access_plugin.deb
 
 # Note: order matters
 RUN dpkg -i tedge.deb
@@ -41,8 +44,12 @@ RUN dpkg -i tedge_mapper.deb
 RUN dpkg -i tedge_apt_plugin.deb
 RUN dpkg -i tedge_agent.deb
 RUN dpkg -i tedge_logfile_plugin.deb
+RUN dpkg -i tedge_configuration_plugin.deb
+#RUN dpkg -i tedge_apama_plugin.deb
+RUN dpkg -i tedge_watchdog_plugin.deb
+RUN dpkg -i c8y_remote_access_plugin.deb
 
-RUN adduser vscode tedge-users
+#RUN adduser vscode tedge-users
 ARG DEVICE_ID
 RUN tedge cert create --device-id ${DEVICE_ID}
 
@@ -51,6 +58,8 @@ RUN tedge config set c8y.url ${C8Y_URL}
 # we need to configure mosquitto manually because of docker
 COPY c8y-bridge.conf /etc/tedge/mosquitto-conf/c8y-bridge.conf
 COPY tedge-mosquitto.conf /etc/tedge/mosquitto-conf/tedge-mosquitto.conf
+COPY c8y-log-plugin.toml /etc/tedge/c8y/c8y-log-plugin.toml
+COPY c8y-configuration-plugin.toml /etc/tedge/c8y/c8y-configuration-plugin.toml
 ARG DEVICE_ID
 RUN sed -i "s/<<DEVICE_ID>>/${DEVICE_ID}/g" /etc/tedge/mosquitto-conf/c8y-bridge.conf
 ARG C8Y_URL

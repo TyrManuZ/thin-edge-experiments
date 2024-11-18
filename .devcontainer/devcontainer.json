@@ -5,8 +5,8 @@
 		"args": { 
 			"VARIANT": "focal",
 			"DEVICE_ID": "thin-edge-development",
-			"C8Y_URL": "iotsolutions.eu-latest.cumulocity.com",
-			"THIN_EDGE_VERSION": "0.6.2",
+			"C8Y_URL": "devices.jp.cumulocity.com",
+			"THIN_EDGE_VERSION": "0.10.0",
 			"THIN_EDGE_ARCH": "amd64",
 			"USE_DEVELOPMENT_CERTIFICATE": "true",
 			"INSTALL_BUILD_PACKAGES": "false"
@@ -14,14 +14,12 @@
 	},
 	"containerEnv": { 
 		"C8Y_USER": "tobias.sommer@softwareag.com",
-		"C8Y_TENANT": "iotsolutions"
+		"C8Y_TENANT": "t4576464"
 	},
 	"settings": {},
 	"extensions": [
-		"ms-python.python",
-		"GitHub.copilot"
+		"ms-python.python"
 	],
-	"remoteUser": "vscode",
 	"postCreateCommand": "sudo tedge cert upload c8y --user ${C8Y_TENANT}/${C8Y_USER}",
 	"overrideCommand": false
 }

@@ -1,0 +1,4 @@
+files = [
+  { type = "software-management", path = "/var/log/tedge/agent/software-*" },
+  { type = "mosquitto", path = "/var/log/mosquitto/mosquitto.log" }
+]

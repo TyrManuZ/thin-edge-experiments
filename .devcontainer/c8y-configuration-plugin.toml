@@ -1,0 +1,9 @@
+# Add the configurations to be managed by c8y-configuration-plugin
+
+files = [
+    { path = '/etc/tedge/tedge.toml' },
+    { path = '/etc/tedge/mosquitto-conf/c8y-bridge.conf', type = 'c8y-bridge.conf' },
+    { path = '/etc/tedge/mosquitto-conf/tedge-mosquitto.conf', type = 'tedge-mosquitto.conf' },
+    { path = '/etc/mosquitto/mosquitto.conf', type = 'mosquitto.conf' },
+    { path = '/etc/tedge/c8y/c8y-log-plugin.toml', type = 'c8y-log-plugin.toml' },
+]

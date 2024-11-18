@@ -1,0 +1,12 @@
+ dpkg-buildpackage -us -uc -ui
+dpkg-buildpackage: info: source package thin-edge-file-management
+dpkg-buildpackage: info: source version 1.0-1
+dpkg-buildpackage: info: source distribution unstable
+dpkg-buildpackage: info: source changed by unknown <unknown@unknown>
+ dpkg-source --before-build .
+dpkg-buildpackage: info: host architecture amd64
+dpkg-checkbuilddeps: warning: can't parse dependency tedge_agent
+dpkg-checkbuilddeps: warning: can't parse dependency tedge_mapper
+dpkg-checkbuilddeps: error: Unmet build dependencies: dh-python python3-all debhelper (>= 9) dh-systemd (>= 1.5)
+dpkg-buildpackage: warning: build dependencies/conflicts unsatisfied; aborting
+dpkg-buildpackage: warning: (Use -d flag to override.)
